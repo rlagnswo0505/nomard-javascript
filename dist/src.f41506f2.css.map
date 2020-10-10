@@ -1,0 +1,1 @@
+{"version":3,"sources":["src/index.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"src.f41506f2.css","sourceRoot":"..","sourcesContent":[".form,\r\n.greetings {\r\n    display: none;\r\n}\r\n.showing {\r\n    display: block;\r\n}\r\n"]}

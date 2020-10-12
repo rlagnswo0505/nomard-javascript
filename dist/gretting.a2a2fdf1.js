@@ -122,23 +122,39 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
 var form = document.querySelector(".js-form"),
     input = form.querySelector("input"),
-    greeting = document.querySelector(".js-greetiongs");
-var USER_LS = "currenUser",
+    greeting = document.querySelector(".js-greetings");
+var USER_LS = "currentUser",
     SHOWING_CN = "showing";
 
-function paintGreetiong(text) {
+function saveName(text) {
+  localStorage.setItem(USER_LS, text);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  var currentValue = input.value;
+  paintGreeting(currentValue);
+  saveName(currentValue);
+}
+
+function askForName() {
+  form.classList.add(SHOWING_CN);
+  form.addEventListener("submit", handleSubmit);
+}
+
+function paintGreeting(text) {
   form.classList.remove(SHOWING_CN);
   greeting.classList.add(SHOWING_CN);
   greeting.innerText = "Hello ".concat(text);
 }
 
 function loadName() {
-  var currentUser = localStorage.getItem();
+  var currentUser = localStorage.getItem(USER_LS);
 
-  if (currentUser === null) {// he is not
+  if (currentUser === null) {
+    askForName();
   } else {
-    // he is
-    paintGreetiong(currentUser);
+    paintGreeting(currentUser);
   }
 }
 
@@ -175,7 +191,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4591" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2440" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

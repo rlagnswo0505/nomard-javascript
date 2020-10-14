@@ -117,24 +117,77 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/clock.js":[function(require,module,exports) {
-// whole-script strict mode syntax
-"use strict";
+})({"src/todo.js":[function(require,module,exports) {
+'use strict';
 
-var clockContainer = document.querySelector(".js-clock"),
-    clockTitle = clockContainer.querySelector("h1");
+var toDoForm = document.querySelector(".js-toDoForm"),
+    toDoInput = toDoForm.querySelector('input'),
+    toDoList = document.querySelector(".js-toDoList");
+var TODOS_LS = 'toDos';
+var toDos = [];
 
-function getTime() {
-  var date = new Date();
-  var minutes = date.getMinutes();
-  var hours = date.getHours();
-  var seconds = date.getSeconds();
-  clockTitle.innerHTML = "".concat(hours < 10 ? "0".concat(hours) : hours, ":").concat(minutes < 10 ? "0".concat(minutes) : minutes, ":").concat(seconds < 10 ? "0".concat(seconds) : seconds);
+function deletedToDo(event) {
+  // target = 버튼의 위치를 아는것 parentNode = 해당 버튼의 부모
+  var btn = event.target;
+  var li = btn.parentNode;
+  toDoList.removeChild(li);
+  var cleanToDos = toDos.filter(function (toDo) {
+    return toDo.id !== parseInt(li.id);
+  });
+  toDos = cleanToDos;
+  saveToDos();
+}
+
+function saveToDos() {
+  // localStorage는 value 값을 string으로만 저장가능
+  // JSON.stringify를 통해 obj를 string으로 변환
+  localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+}
+
+function paintToDo(text) {
+  var li = document.createElement("li");
+  var delBtn = document.createElement("button");
+  var span = document.createElement("span");
+  var newId = toDos.length + 1;
+  delBtn.innerText = "❌";
+  delBtn.addEventListener("click", deletedToDo);
+  span.innerText = text;
+  li.appendChild(delBtn);
+  li.appendChild(span);
+  toDoList.appendChild(li);
+  li.id = newId;
+  var toDosObj = {
+    text: text,
+    id: newId
+  }; // push 를 하고 난뒤 saveToDos를 불러와야 저장가능
+
+  toDos.push(toDosObj);
+  saveToDos();
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  var currentValue = toDoInput.value;
+  paintToDo(currentValue);
+  toDoInput.value = "";
+}
+
+function loadToDos() {
+  var loadedToDos = localStorage.getItem(TODOS_LS);
+
+  if (loadedToDos !== null) {
+    // JSON.parse = localStorage에 있는 value 값 string을 JS로 사용할 수 있게 바꿔주는 작업
+    var parsedToDos = JSON.parse(loadedToDos); // forEach = array 안에 함수를 각각 실행
+
+    parsedToDos.forEach(function (toDo) {
+      paintToDo(toDo.text);
+    });
+  }
 }
 
 function init() {
-  getTime();
-  setInterval(getTime, 1000);
+  loadToDos();
+  toDoForm.addEventListener('submit', handleSubmit);
 }
 
 init();
@@ -342,5 +395,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/clock.js"], null)
-//# sourceMappingURL=/clock.19d2466d.js.map
+},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/todo.js"], null)
+//# sourceMappingURL=/todo.48013cdb.js.map

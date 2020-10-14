@@ -118,50 +118,71 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"src/todo.js":[function(require,module,exports) {
-'use strict';
-
+// 자바스크립트를 이용해서 새로운 태그를 만들고 가공해서 index.html의 특정 태그의 자식 태그로 삽입.
+// push 메소드를 사용하여 Array에 특정 요소를 넣음.
+// 특정 태그의 id 속성을 자바스크립트를 이용해 설정.
+// local storage에는 자바스크립트의 데이터 형식으로 저장할 수 없기 때문에, string으로 저장해야 한다.
+// JSON : JavaScript Object Notation의 약어.
+// JSON.pares() 함수를 이용해서 JSON 형태의 데이터를 자바스크립트 Object 형태로 변형.
+// forEach : array에 담겨 있는 것들에 각각 한 번씩 함수를 실행함.
+// 즉, forEach는 array를 위한 함수임.
+// 이와 비슷하게 filter 함수도 있음.
+// 이 함수는 array를 통해 모든 요소의 함수를 설정할 수 있고, 값이 true인 것들만 가지고 새로운 array를 만들어 반환한다.
 var toDoForm = document.querySelector(".js-toDoForm"),
-    toDoInput = toDoForm.querySelector('input'),
+    toDoInput = toDoForm.querySelector("input"),
     toDoList = document.querySelector(".js-toDoList");
-var TODOS_LS = 'toDos';
+var TODOS_LS = "toDos";
 var toDos = [];
 
-function deletedToDo(event) {
-  // target = 버튼의 위치를 아는것 parentNode = 해당 버튼의 부모
-  var btn = event.target;
-  var li = btn.parentNode;
-  toDoList.removeChild(li);
+function deleteToDo(event) {
+  // console.dir(event.target) // 이 방법으로 event.target의 부모 노드를 확인할 수 있음.
+  // event.target.parentNode // event.target.parentNode는 여러 개의 버튼 중 어느 버튼이 클릭됐는지 알려준다. 정확히는, 클릭된 버튼 태드의 부모 태그를 불러온다.
+  var btn = event.target; // 클릭된 버튼을 할당.
+
+  var li = btn.parentNode; // 그리고 그 부모 태그(li)를 할당.
+
+  toDoList.removeChild(li); // 해당 태그를 지움.
+  // filter 함수는 array의 모든 요소들에 함수를 실행하고, 값이 true인 것들만 가지고 새로운 array를 만들어 반환함.
+
   var cleanToDos = toDos.filter(function (toDo) {
     return toDo.id !== parseInt(li.id);
   });
   toDos = cleanToDos;
   saveToDos();
-}
+} // to-do-list를 local storage에 저장하는 함수
+
 
 function saveToDos() {
-  // localStorage는 value 값을 string으로만 저장가능
-  // JSON.stringify를 통해 obj를 string으로 변환
-  localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+  localStorage.setItem(TODOS_LS, JSON.stringify(toDos)); // JSON.stringify 함수를 사용해 자바스크립트 objectfmf string으로 바꿔준다.
 }
 
 function paintToDo(text) {
-  var li = document.createElement("li");
-  var delBtn = document.createElement("button");
-  var span = document.createElement("span");
+  var li = document.createElement("li"); // li 태그를 만들어서 변수에 할당
+
+  var delBtn = document.createElement("button"); // button 태그를 만들어서 변수에 할당
+
+  var span = document.createElement("span"); // span 태그를 만들어서 변수에 할당
+
   var newId = toDos.length + 1;
-  delBtn.innerText = "❌";
-  delBtn.addEventListener("click", deletedToDo);
-  span.innerText = text;
-  li.appendChild(delBtn);
-  li.appendChild(span);
-  toDoList.appendChild(li);
-  li.id = newId;
-  var toDosObj = {
+  delBtn.innerText = "❌"; // 버튼의 텍스트는 "X"로 설정
+
+  delBtn.addEventListener("click", deleteToDo);
+  span.innerText = text; // 사용자가 입력한 텍스트가 span태그의 텍스트가 되도록 설정
+
+  li.appendChild(delBtn); // li 태그의 자식 태그로 버튼을 삽입
+
+  li.appendChild(span); // li 태그의 자식 태그로 span 태그 삽입
+
+  li.id = newId; // li태그의 id 속성을 object의 id와 같게 함.
+
+  toDoList.appendChild(li); // 위에서 설정한 li 태그들을 최종적으로 toDoList에 삽입.
+
+  var toDoObj = {
     text: text,
     id: newId
-  }; // push 를 하고 난뒤 saveToDos를 불러와야 저장가능
+  };
+  toDos.push(toDoObj); // toDos라는 Array 안에 toDoObj 객체를 넣음.
 
-  toDos.push(toDosObj);
   saveToDos();
 }
 
@@ -169,15 +190,14 @@ function handleSubmit(event) {
   event.preventDefault();
   var currentValue = toDoInput.value;
   paintToDo(currentValue);
-  toDoInput.value = "";
+  toDoInput.value = ""; // 텍스트를 입력하고 엔터를 치면 사라지게 하기
 }
 
 function loadToDos() {
-  var loadedToDos = localStorage.getItem(TODOS_LS);
+  var loadedToDos = localStorage.getItem(TODOS_LS); // 로컬스토리지에서 키가 TODOS_LS인 값을 가져오기
 
   if (loadedToDos !== null) {
-    // JSON.parse = localStorage에 있는 value 값 string을 JS로 사용할 수 있게 바꿔주는 작업
-    var parsedToDos = JSON.parse(loadedToDos); // forEach = array 안에 함수를 각각 실행
+    var parsedToDos = JSON.parse(loadedToDos); // JSON을 자바스크립트가 이해할 수 있는 object 데이터 형식으로 변형
 
     parsedToDos.forEach(function (toDo) {
       paintToDo(toDo.text);
@@ -187,7 +207,7 @@ function loadToDos() {
 
 function init() {
   loadToDos();
-  toDoForm.addEventListener('submit', handleSubmit);
+  toDoForm.addEventListener("submit", handleSubmit);
 }
 
 init();
@@ -219,7 +239,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "5234" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9964" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

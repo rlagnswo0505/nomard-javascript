@@ -117,27 +117,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/clock.js":[function(require,module,exports) {
-// whole-script strict mode syntax
-"use strict";
+})({"index.js":[function(require,module,exports) {
 
-var clockContainer = document.querySelector(".js-clock"),
-    clockTitle = clockContainer.querySelector("h1");
-
-function getTime() {
-  var date = new Date();
-  var minutes = date.getMinutes();
-  var hours = date.getHours();
-  var seconds = date.getSeconds();
-  clockTitle.innerHTML = "".concat(hours < 10 ? "0".concat(hours) : hours, ":").concat(minutes < 10 ? "0".concat(minutes) : minutes, ":").concat(seconds < 10 ? "0".concat(seconds) : seconds);
-}
-
-function init() {
-  getTime();
-  setInterval(getTime, 1000);
-}
-
-init();
 },{}],"C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -342,5 +323,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/clock.js"], null)
-//# sourceMappingURL=/clock.19d2466d.js.map
+},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+//# sourceMappingURL=/nomard-javascript.e31bb0bc.js.map

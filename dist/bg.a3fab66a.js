@@ -117,36 +117,28 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/localStorage.js":[function(require,module,exports) {
-'use strict'; // 1. 선택한 값을 localStorage에 저장
-// 2. 새로 고침하면 저장된 값을 로드
+})({"src/bg.js":[function(require,module,exports) {
+'use strict'; // 배경사진을 랜덤으로 추가하기
+// math.random 을 이용해 랜덤 넘버를 가져올 수 있다.
 
-var select = document.querySelector(".js-select");
-var option = select.querySelector("option");
-var COUNTRY_LS = 'country';
-var SHOW_CTR = 'option'; // select 저장
+var body = document.querySelector("body");
+var IMG_NUMBER = 5;
 
-function saveCountry() {
-  // select의 값을 selectCTR에 넣고
-  var selectCTR = select.value; // 로컬 스토리지에 key를 country로 저장
-
-  localStorage.setItem(COUNTRY_LS, selectCTR);
-  console.log(selectCTR);
+function paintImage(imgNumber) {
+  var image = new Image();
+  image.src = "images/".concat(imgNumber + 1, ".jpg");
+  image.classList.add("bgImage");
+  body.appendChild(image);
 }
 
-function loadCountry() {
-  // 로컬 스토리지에 key 가 country인 값을 savedCTR에 넣음
-  var savedCTR = localStorage.getItem(COUNTRY_LS);
-  console.log(savedCTR);
-  select.addEventListener('change', saveCountry);
-
-  if (savedCTR !== null) {
-    select.value = savedCTR;
-  }
+function genRandom() {
+  var number = Math.floor(Math.random() * IMG_NUMBER);
+  return number;
 }
 
 function init() {
-  loadCountry();
+  var randomNumber = genRandom();
+  paintImage(randomNumber);
 }
 
 init();
@@ -178,7 +170,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2440" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9964" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -354,5 +346,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/localStorage.js"], null)
-//# sourceMappingURL=/localStorage.1d2a3b9d.js.map
+},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/bg.js"], null)
+//# sourceMappingURL=/bg.a3fab66a.js.map

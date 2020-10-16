@@ -117,25 +117,32 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/clock.js":[function(require,module,exports) {
-// whole-script strict mode syntax
+})({"src/weather.js":[function(require,module,exports) {
 "use strict";
 
-var clockContainer = document.querySelector(".js-clock"),
-    clockTitle = clockContainer.querySelector("h1");
+var COOREDS = "coords";
 
-function getTime() {
-  var date = new Date();
-  var minutes = date.getMinutes();
-  var hours = date.getHours();
-  var seconds = date.getSeconds();
-  clockTitle.innerHTML = "".concat(hours < 10 ? "0".concat(hours) : hours, ":").concat(minutes < 10 ? "0".concat(minutes) : minutes, ":").concat(seconds < 10 ? "0".concat(seconds) : seconds);
+function handleGeoSucces(position) {
+  console.log(position);
 }
 
-function init() {
-  getTime();
-  setInterval(getTime, 1000);
+function askForCoords() {
+  navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
 }
+
+function handleGeoError() {
+  console.log("Cant access geo location");
+}
+
+function loadCords() {
+  var loadedCoords = localStorage.getItem(COOREDS);
+
+  if (loadedCoords === null) {
+    askForCoords();
+  } else {}
+}
+
+function init() {}
 
 init();
 },{}],"C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -342,5 +349,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/clock.js"], null)
-//# sourceMappingURL=/clock.19d2466d.js.map
+},{}]},{},["C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/weather.js"], null)
+//# sourceMappingURL=/weather.b54aa584.js.map

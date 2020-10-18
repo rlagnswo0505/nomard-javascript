@@ -41,16 +41,16 @@ function paintToDo(text) {
     const delBtn = document.createElement("button"); // button 태그를 만들어서 변수에 할당
     const span = document.createElement("span"); // span 태그를 만들어서 변수에 할당
     const newId = toDos.length + 1;
+    span.innerText = text; // 사용자가 입력한 텍스트가 span태그의 텍스트가 되도록 설정
     delBtn.innerText = "❌"; // 버튼의 텍스트는 "X"로 설정
     delBtn.addEventListener("click", deleteToDo);
-    span.innerText = text; // 사용자가 입력한 텍스트가 span태그의 텍스트가 되도록 설정
-    li.appendChild(delBtn); // li 태그의 자식 태그로 버튼을 삽입
     li.appendChild(span); // li 태그의 자식 태그로 span 태그 삽입
+    li.appendChild(delBtn); // li 태그의 자식 태그로 버튼을 삽입
     li.id = newId; // li태그의 id 속성을 object의 id와 같게 함.
     toDoList.appendChild(li); // 위에서 설정한 li 태그들을 최종적으로 toDoList에 삽입.
     const toDoObj = {
         text: text,
-        id: newId
+        id: newId,
     };
     toDos.push(toDoObj); // toDos라는 Array 안에 toDoObj 객체를 넣음.
     saveToDos();

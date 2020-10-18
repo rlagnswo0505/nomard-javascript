@@ -164,14 +164,14 @@ function paintToDo(text) {
   var span = document.createElement("span"); // span 태그를 만들어서 변수에 할당
 
   var newId = toDos.length + 1;
+  span.innerText = text; // 사용자가 입력한 텍스트가 span태그의 텍스트가 되도록 설정
+
   delBtn.innerText = "❌"; // 버튼의 텍스트는 "X"로 설정
 
   delBtn.addEventListener("click", deleteToDo);
-  span.innerText = text; // 사용자가 입력한 텍스트가 span태그의 텍스트가 되도록 설정
+  li.appendChild(span); // li 태그의 자식 태그로 span 태그 삽입
 
   li.appendChild(delBtn); // li 태그의 자식 태그로 버튼을 삽입
-
-  li.appendChild(span); // li 태그의 자식 태그로 span 태그 삽입
 
   li.id = newId; // li태그의 id 속성을 object의 id와 같게 함.
 
@@ -239,7 +239,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2021" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14473" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

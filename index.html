@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
-    <link rel="stylesheet" href="/src/index.css">
-    <script src="./index.js"></script>
+    <link rel="stylesheet" href="/src/styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jua&family=Work+Sans:wght@500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="server.js"></script>
     <script defer src="/src/clock.js"></script>
     <script defer src="/src/gretting.js"></script>
     <script defer src="/src/todo.js"></script>
@@ -19,16 +22,18 @@
         <h1>00:00</h1>
     </div>
     <form class="js-form form" action="">
-        <input type="text" placeholder="What is your name?">
+        <input type="text" id="name" class="form__field" placeholder="What is your name?">
+        <label for="name" class="form__label">Name</label>
     </form>
     <h4 class="js-greetings greetings"></h4>
     <form action="" class="js-toDoForm">
-        <input type="text" placeholder="write a to do">
+        <input type="text" id="todo" class="form__field" placeholder="write a to do">
+        <label for="todo" class="form__label">ToDo-List</label>
     </form>
     <ul class="js-toDoList">
 
     </ul>
-
+    <span class="js-weather"></span>
 </body>
 
 </html>

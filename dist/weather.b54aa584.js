@@ -118,31 +118,57 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"src/weather.js":[function(require,module,exports) {
-"use strict";
+var weather = document.querySelector(".js-weather");
+APIKEY = "615afdc6890061326d688c02af8bab1c";
+var COORDS = "coords";
 
-var COOREDS = "coords";
-
-function handleGeoSucces(position) {
-  console.log(position);
+function getWeather(lat, lng) {
+  fetch("https://api.openweathermap.org/data/2.5/weather?lat=".concat(lat, "&lon=").concat(lng, "&appid=").concat(APIKEY, "&units=metric")).then(function (response) {
+    return response.json();
+  }).then(function (json) {
+    var temperature = json.main.temp;
+    var place = json.name;
+    weather.innerText = "".concat(temperature, "\xBAC @ ").concat(place);
+  });
 }
 
-function askForCoords() {
-  navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
+function saveCoords(coordObj) {
+  localStorage.setItem(COORDS, JSON.stringify(coordObj));
+}
+
+function handleGeoSuccess(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  var coordsObj = {
+    latitude: latitude,
+    longitude: longitude
+  };
+  saveCoords(coordsObj);
+  getWeather(latitude, longitude);
 }
 
 function handleGeoError() {
-  console.log("Cant access geo location");
+  console.log("can't access the geo location");
 }
 
-function loadCords() {
-  var loadedCoords = localStorage.getItem(COOREDS);
+function askForCoodrs() {
+  navigator.geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError);
+}
+
+function loadCoord() {
+  var loadedCoords = localStorage.getItem(COORDS);
 
   if (loadedCoords === null) {
-    askForCoords();
-  } else {}
+    askForCoodrs();
+  } else {
+    var parsedCoords = JSON.parse(loadedCoords);
+    getWeather(parsedCoords.latitude, parsedCoords.longitude);
+  }
 }
 
-function init() {}
+function init() {
+  loadCoord();
+}
 
 init();
 },{}],"C:/Users/kim/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -173,7 +199,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2021" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14473" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

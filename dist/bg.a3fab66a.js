@@ -118,7 +118,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"src/bg.js":[function(require,module,exports) {
-'use strict'; // 배경사진을 랜덤으로 추가하기
+"use strict"; // 배경사진을 랜덤으로 추가하기
 // math.random 을 이용해 랜덤 넘버를 가져올 수 있다.
 
 var body = document.querySelector("body");
@@ -170,7 +170,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2021" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14473" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
